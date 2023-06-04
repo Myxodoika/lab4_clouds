@@ -33,16 +33,16 @@ df.to_csv('exchange_rates_eur.csv')
 
 s3 = boto3.client('s3')
 
-bucket_name = 'data-shedmy'
+bucket_name = 'lab4-2'
 file_name = 'exchange_rates_usd.csv'
 file_name1 = 'exchange_rates_eur.csv'
 
 s3.upload_file(file_name, bucket_name, file_name)
 s3.upload_file(file_name1, bucket_name, file_name1)
 
-obj = s3.get_object(Bucket='data-shedmy', Key='exchange_rates_eur.csv')
+obj = s3.get_object(Bucket='lab4-2', Key='exchange_rates_eur.csv')
 df_eur = pd.read_csv(obj['Body'])
-obj = s3.get_object(Bucket='data-shedmy', Key='exchange_rates_usd.csv')
+obj = s3.get_object(Bucket='lab4-2', Key='exchange_rates_usd.csv')
 df_usd = pd.read_csv(obj['Body'])
 
 df_eur = df_eur.iloc[::5, :]
@@ -60,6 +60,6 @@ plt.xticks(rotation=90)
 plt.savefig('exchange_rate_graph.png')
 
 with open('exchange_rate_graph.png', 'rb') as f:
-	s3.upload_fileobj(f, 'data-shedmy', 'exchange_rate_graph.png')
+	s3.upload_fileobj(f, 'lab4-2', 'exchange_rate_graph.png')
     
 plt.show()
